@@ -13,6 +13,7 @@ import discord
 import os
 from discord.ext import commands
 from dotenv import load_dotenv
+import time
 
 
 print('Loading...')
@@ -64,6 +65,7 @@ async def on_reaction_add(reaction, user):
     #if user.bot:
     #    return
     if emoji == "📌":
+        time.sleep(5)
         await reaction.message.add_reaction(emoji)
     else:
         return
