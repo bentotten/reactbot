@@ -17,16 +17,20 @@ import time
 
 
 print('Loading...')
-with open('my_name.txt', 'r') as f:
-    me = f.read().strip('\n\r')
-    f.close()
-    print(me + ' set as Owner')
+#with open('my_name.txt', 'r') as f:
+#    me = f.read().strip('\n\r')
+#    f.close()
+me = 'hurricane'
+print(me + ' set as Owner')
 
 
 # Bot Setup
 image_types = ["png", "jpeg", "gif", "jpg"]
 bot_id = 'Jack#1847'
+intents = discord.Intents.default()
+intents.members = True
 bot = commands.Bot(command_prefix='!',
+                   intents=intents,
                    description='\
 This bot was created by Ben Hurricane in 2022 \
 to respond to the "pin" react with more pin reacts, \
@@ -35,8 +39,9 @@ pinbots hardcoded requirement for 3 pins',
                    help_command=commands.DefaultHelpCommand(
                        no_category='Help Menu:')
                    )
-with open('token.txt') as f:
-    token = f.readline().strip()  # Read in token from file
+#with open('token.txt') as f:
+#    token = f.readline().strip()  # Read in token from file
+token = 'OTQyOTUxNjAxODg5NDc2NjE5.Ygr-HQ.r5-8Y30XOFvyUgGz8B26IHFa50E'
 load_dotenv()
 
 # Shutdown bot
