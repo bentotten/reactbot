@@ -20,6 +20,7 @@ print('Loading...')
 #with open('my_name.txt', 'r') as f:
 #    me = f.read().strip('\n\r')
 #    f.close()
+
 me = 'hurricane'
 print(me + ' set as Owner')
 
@@ -41,6 +42,7 @@ pinbots hardcoded requirement for 3 pins',
                    )
 with open('token.txt') as f:
     token = f.readline().strip()  # Read in token from file
+
 load_dotenv()
 
 # Shutdown bot
@@ -69,7 +71,7 @@ async def on_reaction_add(reaction, user):
     #if user.bot:
     #    return
     if emoji == "📌":
-        time.sleep(5)
+        time.sleep(7)
         await reaction.message.add_reaction(emoji)
     else:
         return
