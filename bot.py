@@ -39,9 +39,8 @@ pinbots hardcoded requirement for 3 pins',
                    help_command=commands.DefaultHelpCommand(
                        no_category='Help Menu:')
                    )
-#with open('token.txt') as f:
-#    token = f.readline().strip()  # Read in token from file
-token = 'OTQyOTUxNjAxODg5NDc2NjE5.Ygr-HQ.r5-8Y30XOFvyUgGz8B26IHFa50E'
+with open('token.txt') as f:
+    token = f.readline().strip()  # Read in token from file
 load_dotenv()
 
 # Shutdown bot
