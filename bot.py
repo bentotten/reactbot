@@ -1,79 +1,73 @@
 #!/usr/bin/python3
 
-# Author: Ben Hurricane
-# Origin: 14 Feb 22
-# bot.py
-# This bot responds to the "pin" react with more pin reacts, specifically to
-# get around discords pin limits but pinbots hardcoded requirement for 3 pins
-# Referenced:
+# Authors: Ben Hurricane, Amber Jennings
+# Origin: 14 Feb 2022
+# Modified: 22 Sep 2024
+
+# This bot responds to the "pushpin" reaction with more pushpins, specifically to
+# get around Discord's pin limits but Pinbot's hardcoded requirement for 3 pins.
+
+# Takes token file as an argument
+
+# References:
 # - https://realpython.com/how-to-make-a-discord-bot-python/
 # - discordpy.readthedocs.io/en/latest/api.html#discord.User.mention
 
+from discord.ext import commands
+import argparse
 import discord
 import os
-from discord.ext import commands
-from dotenv import load_dotenv
 import time
 
+# Parse argument as token file
+parser = argparse.ArgumentParser()
+parser.add_argument("token_file", type=str)
+args = parser.parse_args()
 
-print('Loading...')
-#with open('my_name.txt', 'r') as f:
-#    me = f.read().strip('\n\r')
-#    f.close()
-
-me = 'hurricane'
-print(me + ' set as Owner')
-
+with open(args.token_file) as f:
+    token = f.readline().strip()
 
 # Bot Setup
-image_types = ["png", "jpeg", "gif", "jpg"]
-bot_id = 'Jack#1847'
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(command_prefix='!',
+bot = commands.Bot(command_prefix="!",
                    intents=intents,
-                   description='\
+                   description="\
 This bot was created by Ben Hurricane in 2022 \
-to respond to the "pin" react with more pin reacts, \
-specifically to get around discords pin limits but \
-pinbots hardcoded requirement for 3 pins',
+and modified by Amber Jennings in 2024 \
+to respond to the \"pushpin\" reaction with more pushpins, \
+specifically to get around Discord's pin limits + \
+Pinbot's hardcoded requirement for 3 pins",
                    help_command=commands.DefaultHelpCommand(
-                       no_category='Help Menu:')
+                       no_category="Help Menu:")
                    )
-with open('token.txt') as f:
-    token = f.readline().strip()  # Read in token from file
 
-load_dotenv()
+# Log
+@bot.event
+async def on_ready():
+    print(f"{bot.user.name} has connected to Discord!")
 
-# Shutdown bot
-@bot.command(name='sleep', help='Shutsdown bot')
+# Shutdown bot (admin)
+@bot.command(name="sleep", help="Shuts down bot")
 @commands.has_permissions(administrator=True)
 async def close(ctx):
     await bot.close()
 
-
-@bot.event
-async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
-
-# Ping
-@bot.command(name='ping', help="Checks bot is online.")
+# Ping (debug)
+@bot.command(name="ping", help="Checks bot is online.")
 async def ping(ctx):
-    # Attempt to ping user
-    msg = ctx.author.mention + ' pong!'
+    msg = ctx.author.mention + " pong!"
     await ctx.send(msg)
-    print(f'{ctx.author} has pinged!')
+    print(f"{ctx.author} has pinged!")
 
-# Add react
+# Duplicate pin reactions (the whole point)
 @bot.event
 async def on_reaction_add(reaction, user):
     emoji = reaction.emoji
-    #if user.bot:
-    #    return
     if emoji == "📌":
-        time.sleep(7)
+        time.sleep(5)
         await reaction.message.add_reaction(emoji)
     else:
         return
 
-bot.run(token)  # Launch bot
+bot.run(token)
